@@ -4,11 +4,20 @@
   "description": "Desafio técnico da empresa ambev tech: testes automatizados E2E com Cypress e JavaScript.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "cypress run",
+    "test:open": "cypress open",
+    "report:merge": "mochawesome-merge cypress/reports/*.json > cypress/reports/output.json",
+    "report:generate": "marge cypress/reports/output.json -f report -o cypress/reports"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "cypress": "^14.4.0"
+    "@badeball/cypress-cucumber-preprocessor": "^22.0.1",
+    "@bahmutov/cypress-esbuild-preprocessor": "^2.2.5",
+    "cypress": "^14.4.0",
+    "esbuild": "^0.25.5",
+    "mochawesome": "^7.1.3",
+    "mochawesome-merge": "^4.4.1",
+    "mochawesome-report-generator": "^6.2.0"
   }
 }

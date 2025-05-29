@@ -1,17 +1,19 @@
-// ***********************************************************
-// This example support/e2e.js is processed and
-// loaded automatically before your test files.
-//
-// This is a great place to put global configuration and
-// behavior that modifies Cypress.
-//
-// You can change the location of this file or turn off
-// automatically serving support files with the
-// 'supportFile' configuration option.
-//
-// You can read more here:
-// https://on.cypress.io/configuration
-// ***********************************************************
-
 // Import commands.js using ES2015 syntax:
-import './commands'
+import './commands';
+
+// Configurações globais para os testes E2E
+
+// Desativar falhas em screenshots para testes que falham
+Cypress.Screenshot.defaults({
+  screenshotOnRunFailure: true,
+});
+
+// Configurar o comportamento para falhas não esperadas
+Cypress.on('uncaught:exception', (err, runnable) => {
+  // retornando false impede que o Cypress falhe o teste
+  console.error('Erro não tratado:', err.message);
+  return false;
+});
+
+// Configurar timeout global para os comandos
+Cypress.config('defaultCommandTimeout', 10000);

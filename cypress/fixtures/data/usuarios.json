@@ -1,0 +1,19 @@
+{
+  "usuarioValido": {
+    "nome": "Bruno Teste",
+    "email": "bruno.teste@exemplo.com",
+    "password": "senha@123",
+    "admin": true
+  },
+  "usuarioDuplicado": {
+    "nome": "Bruno Duplicado",
+    "email": "bruno.teste@exemplo.com",
+    "password": "senha@123",
+    "admin": false
+  },
+  "usuarioInvalido": {
+    "nome": "",
+    "email": "",
+    "password": ""
+  }
+}
