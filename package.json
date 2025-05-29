@@ -6,14 +6,19 @@
   "scripts": {
     "test": "cypress run",
     "test:open": "cypress open",
+    "test:api": "cypress run --config-file cypress-api.config.js",
+    "test:api:open": "cypress open --config-file cypress-api.config.js",
     "report:merge": "mochawesome-merge cypress/reports/*.json > cypress/reports/output.json",
-    "report:generate": "marge cypress/reports/output.json -f report -o cypress/reports"
+    "report:generate": "marge cypress/reports/output.json -f report -o cypress/reports",
+    "report:api:merge": "mochawesome-merge cypress/reports/api-tests/*.json > cypress/reports/api-tests/output.json",
+    "report:api:generate": "marge cypress/reports/api-tests/output.json -f api-report -o cypress/reports/api-tests"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@badeball/cypress-cucumber-preprocessor": "^22.0.1",
     "@bahmutov/cypress-esbuild-preprocessor": "^2.2.5",
+    "ajv": "^8.17.1",
     "cypress": "^14.4.0",
     "esbuild": "^0.25.5",
     "mochawesome": "^7.1.3",

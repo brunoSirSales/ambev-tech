@@ -6,7 +6,6 @@ import LoginPage from '../../../pages/LoginPage';
  * Implementa os passos definidos na feature de login
  */
 
-
 Given('que estou na página de login', () => {
   LoginPage.acessarPaginaLogin();
 });
