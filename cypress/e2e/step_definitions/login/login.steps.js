@@ -6,8 +6,6 @@ import LoginPage from '../../../pages/LoginPage';
  * Implementa os passos definidos na feature de login
  */
 
-// Hook Before removido conforme solicitado
-// Assumindo que o usuário já existe no sistema
 
 Given('que estou na página de login', () => {
   LoginPage.acessarPaginaLogin();

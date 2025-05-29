@@ -8,45 +8,29 @@ import ProdutoPage from '../../../pages/ProdutoPage';
  */
 
 Before({ tags: '@cadastroProduto' }, () => {
-  
-  cy.fixture('data/usuarios.json').then((usuarios) => {
-    cy.cadastrarUsuarioParaLogin(usuarios.usuarioLogin);
-  });
-  
-  cy.visit('/');
+
+  cy.visit('/login');
 });
 
 Given('que estou logado como administrador', () => {
-  
-  cy.visit('/login');
+
   cy.intercept('POST', '**/login').as('loginRequest');
   
-  
+
   cy.fixture('data/usuarios.json').then((usuarios) => {
-    LoginPage.preencherFormulario(usuarios.usuarioLogin);
+    LoginPage.preencherFormulario(usuarios.usuarioValido);
     LoginPage.clicarBotaoEntrar();
     LoginPage.verificarLoginSucesso();
   });
 });
 
 Given('que estou na página de cadastro de produtos', () => {
-  
+
   ProdutoPage.configurarInterceptorCadastroProdutos();
   
+  cy.url().should('include', '/admin/home');
   
-  cy.get('body').then(($body) => {
-    
-    if (!$body.find('[data-testid=usuario-logado]').length) {
-      cy.log('Usuário não está logado. Redirecionando para login...');
-      cy.visit('/login');
-      cy.fixture('data/usuarios.json').then((usuarios) => {
-        LoginPage.preencherFormulario(usuarios.usuarioLogin);
-        LoginPage.clicarBotaoEntrar();
-      });
-    }
-  });
-  
-  cy.get('[data-testid=cadastrar-produtos]').click();
+  cy.get('[data-testid=cadastrarProdutos]').click();
   cy.url().should('include', '/admin/cadastrarprodutos');
 });
 

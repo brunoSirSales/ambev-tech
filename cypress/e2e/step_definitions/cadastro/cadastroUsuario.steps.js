@@ -40,7 +40,6 @@ When('clico no botão de cadastro {string}', (textoBotao) => {
   }
 });
 
-
 Then('devo visualizar a mensagem de sucesso {string}', (mensagem) => {
   CadastroUsuarioPage.verificarMensagemSucesso(mensagem);
 });

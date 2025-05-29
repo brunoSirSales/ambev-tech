@@ -13,7 +13,7 @@ Funcionalidade: Cadastro de produtos no sistema
   Cenário: Cadastro de produto com dados válidos
     Quando preencho o formulário de cadastro de produto com os dados
       | nome       | cervejaambev                                      |
-      | preco      | 15.99                                             |
+      | preco      | 15                                             |
       | descricao  | Cerveja premium da Ambev, refrescante e de alta qualidade |
       | quantidade | 10                                                |
     E clico no botão "Cadastrar"
