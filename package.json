@@ -1,0 +1,14 @@
+{
+  "name": "ambev-tech",
+  "version": "1.0.0",
+  "description": "Desafio técnico da empresa ambev tech: testes automatizados E2E com Cypress e JavaScript.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "cypress": "^14.4.0"
+  }
+}
