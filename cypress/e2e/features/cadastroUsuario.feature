@@ -14,6 +14,6 @@ Funcionalidade: Cadastro de usuários no sistema
       | email    | bruno.teste@exemplo.com    |
       | password | senha@123                  |
       | admin    | true                       |
-    E clico no botão "Cadastrar"
+    E clico no botão de cadastro "Cadastrar"
     Então devo visualizar a mensagem de sucesso "Cadastro realizado com sucesso"
     E devo ser redirecionado para a página de listagem de usuários

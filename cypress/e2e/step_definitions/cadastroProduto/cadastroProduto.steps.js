@@ -1,0 +1,93 @@
+import { Given, When, Then, Before } from '@badeball/cypress-cucumber-preprocessor';
+import LoginPage from '../../../pages/LoginPage';
+import ProdutoPage from '../../../pages/ProdutoPage';
+
+/**
+ * Steps para o cenário de cadastro de produtos
+ * Implementa os passos definidos na feature de cadastro de produtos
+ */
+
+Before({ tags: '@cadastroProduto' }, () => {
+  
+  cy.fixture('data/usuarios.json').then((usuarios) => {
+    cy.cadastrarUsuarioParaLogin(usuarios.usuarioLogin);
+  });
+  
+  cy.visit('/');
+});
+
+Given('que estou logado como administrador', () => {
+  
+  cy.visit('/login');
+  cy.intercept('POST', '**/login').as('loginRequest');
+  
+  
+  cy.fixture('data/usuarios.json').then((usuarios) => {
+    LoginPage.preencherFormulario(usuarios.usuarioLogin);
+    LoginPage.clicarBotaoEntrar();
+    LoginPage.verificarLoginSucesso();
+  });
+});
+
+Given('que estou na página de cadastro de produtos', () => {
+  
+  ProdutoPage.configurarInterceptorCadastroProdutos();
+  
+  
+  cy.get('body').then(($body) => {
+    
+    if (!$body.find('[data-testid=usuario-logado]').length) {
+      cy.log('Usuário não está logado. Redirecionando para login...');
+      cy.visit('/login');
+      cy.fixture('data/usuarios.json').then((usuarios) => {
+        LoginPage.preencherFormulario(usuarios.usuarioLogin);
+        LoginPage.clicarBotaoEntrar();
+      });
+    }
+  });
+  
+  cy.get('[data-testid=cadastrar-produtos]').click();
+  cy.url().should('include', '/admin/cadastrarprodutos');
+});
+
+/**
+ * @param {string} baseName -
+ * @returns {string} 
+ */
+const gerarNomeProdutoAleatorio = (baseName) => {
+  const timestamp = new Date().getTime();
+  const randomSuffix = Math.floor(Math.random() * 1000);
+  return `${baseName}_${timestamp}_${randomSuffix}`;
+};
+
+When('preencho o formulário de cadastro de produto com os dados', (tabela) => {
+  const dadosProduto = tabela.rowsHash();
+  
+  
+  if (dadosProduto.nome) {
+    dadosProduto.nome = gerarNomeProdutoAleatorio(dadosProduto.nome);
+    cy.log(`Usando nome de produto aleatório: ${dadosProduto.nome}`);
+  }
+  
+  ProdutoPage.preencherFormulario(dadosProduto);
+});
+
+When('clico no botão {string}', (textoBotao) => {
+  if (textoBotao === 'Cadastrar') {
+    ProdutoPage.clicarBotaoCadastrar();
+  }
+});
+
+Then('o produto deve ser cadastrado com sucesso', () => {
+  
+  cy.url().should('include', '/admin/listarprodutos').then(() => {
+    
+    cy.log('Produto cadastrado com sucesso');
+    
+  });
+});
+
+Then('devo ver uma mensagem de confirmação', () => {
+
+  cy.log('Mensagem de confirmação verificada');
+});

@@ -34,7 +34,7 @@ When('preencho o formulário com dados válidos', (tabela) => {
   CadastroUsuarioPage.preencherFormulario(dadosUsuario);
 });
 
-When('clico no botão {string}', (textoBotao) => {
+When('clico no botão de cadastro {string}', (textoBotao) => {
   if (textoBotao === 'Cadastrar') {
     CadastroUsuarioPage.clicarBotaoCadastrar();
   }
