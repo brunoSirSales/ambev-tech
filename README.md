@@ -1,85 +1,107 @@
-# ambev-tech
-# Projeto de Automação de Testes E2E - Ambev Tech
+# Testes Automatizados com Cypress – ServeRest
 
-Desafio técnico da empresa Ambev Tech: testes automatizados E2E com Cypress e JavaScript.
+Este repositório contém uma suíte de testes automatizados para a aplicação ServeRest, abrangendo tanto testes de API quanto testes End-to-End (E2E) de front-end. O objetivo é garantir a qualidade dos principais fluxos do sistema, desde a camada de API até a interface do usuário.
 
-## Tecnologias Utilizadas
+---
 
-- Node.js v20.17.0
-- Cypress v14.4.0
-- Cucumber/Gherkin para BDD
-- Page Object Model (POM)
-- Mochawesome para relatórios
+🚀 **Testes de API**
 
-## Estrutura do Projeto
+Os testes de API estão localizados em `cypress/e2e/api-tests` e cobrem:
 
-```
-├── cypress/
-│   ├── e2e/
-│   │   ├── features/           # Arquivos .feature com cenários em Gherkin
-│   │   ├── step_definitions/   # Implementações dos passos do Cucumber
-│   │   └── *.cy.js             # Testes tradicionais do Cypress
-│   ├── fixtures/
-│   │   └── data/               # Dados para os testes
-│   ├── pages/                  # Page Objects
-│   ├── reports/                # Relatórios gerados
-│   └── support/                # Arquivos de suporte
-├── cypress.config.js           # Configuração do Cypress
-├── cypress-cucumber-preprocessor.config.js # Configuração do Cucumber
-└── package.json
-```
+* **Usuários:** Cadastro, listagem e validação de duplicidade de e-mail.
 
-## Padrões de Projeto Aplicados
+* **Login:** Autenticação com credenciais válidas e inválidas.
 
-1. **Page Object Model (POM)**: Encapsula a interação com a interface em classes específicas para cada página.
-2. **BDD com Gherkin**: Cenários escritos em linguagem natural estruturada.
-3. **Data-Driven Testing**: Uso de fixtures para gerenciar dados de teste.
-4. **Command Pattern**: Comandos personalizados do Cypress para reutilização de código.
+* **Produtos:** Cadastro, edição, deleção e validação de permissões (token JWT).
 
-## Cenários de Teste Implementados
+**Destaques:**
 
-1. **Cadastro de usuário com sucesso**
-2. **Tentativa de cadastro com email já existente**
-3. **Tentativa de cadastro com campos obrigatórios em branco**
+* Cada teste cria e remove seus próprios dados, garantindo isolamento.
 
-## Como Executar os Testes
+* Utilização de schemas JSON (Ajv) para validação das respostas.
 
-### Pré-requisitos
+* Os testes de API não impactam os testes E2E de front-end.
 
-- Node.js v20.17.0 ou superior
-- NPM v10 ou superior
+---
 
-### Instalação
+🖥️ **Testes de Front-End (E2E)**
 
-```bash
-npm install
-```
+Os testes E2E simulam interações reais do usuário na interface web do ServeRest.
 
-### Executar Testes em Modo Headless
+* **Localização:** `cypress/e2e/step_definitions/`
 
-```bash
-npm test
-```
+* **Exemplo de fluxo testado:** Cadastro de produto via interface, login, cadastro de usuário, navegação e validação de mensagens.
 
-### Executar Testes com Interface Gráfica
+* **Boas práticas:** Uso de seletores `data-testid`, validação de URLs, uso de comandos customizados, tratamento de dados dinâmicos e limpeza de estado entre cenários.
 
-```bash
-npm run test:open
-```
+**Ferramentas e padrões:**
 
-### Gerar Relatórios
+* Estrutura BDD com Cucumber (caso esteja usando arquivos `.feature`).
 
-```bash
-npm run report:merge
-npm run report:generate
-```
+* Hooks de preparação e limpeza (`before`, `after`, `afterEach`).
 
-## Boas Práticas Aplicadas
+* Separação clara entre testes de API e E2E para facilitar manutenção.
 
-1. **Código Limpo e Organizado**: Estrutura clara e comentários explicativos.
-2. **Reutilização de Código**: Uso de Page Objects e comandos personalizados.
-3. **Assertivas Claras**: Verificações explícitas e descritivas.
-4. **Independência de Testes**: Cada teste pode ser executado isoladamente.
-5. **Documentação**: README detalhado e código bem documentado.
-6. **Tratamento de Exceções**: Configuração para lidar com erros inesperados.
+---
 
+⚙️ **Tecnologias Utilizadas**
+
+* **Cypress** — Testes E2E e API.
+
+* **Ajv** — Validação de schemas JSON.
+
+* **Cucumber** (opcional) — Testes BDD.
+
+* **Node.js** (para execução dos testes).
+
+---
+
+🛠️ **Como Executar os Testes**
+
+1.  **Instale as dependências**
+
+    ```bash
+    npm install
+    ```
+
+2.  **Execute os testes de API**
+
+    ```bash
+    npx cypress run --spec "cypress/e2e/api-tests/*.cy.js"
+    ```
+
+3.  **Execute os testes de Front-End (E2E)**
+
+    * Para rodar todos os testes (API + E2E):
+
+        ```bash
+        npx cypress run
+        ```
+
+    * Para rodar em modo interativo (útil para depuração):
+
+        ```bash
+        npx cypress open
+        ```
+
+    * Para rodar apenas um teste específico:
+
+        ```bash
+        npx cypress run --spec "cypress/e2e/step_definitions/cadastroProduto/cadastroProduto.steps.js"
+        ```
+
+---
+
+🧩 **Comandos Customizados**
+
+O arquivo `cypress/support/commands.js` centraliza comandos reutilizáveis, como:
+
+* Login automatizado na interface
+
+* Cadastro de usuários para login
+
+* Preenchimento de formulários dinâmicos
+
+* Espera e clique em elementos visíveis
+
+* Validação de textos e screenshots customizados
