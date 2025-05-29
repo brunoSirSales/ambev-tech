@@ -15,5 +15,9 @@
     "nome": "",
     "email": "",
     "password": ""
+  },
+  "usuarioLogin": {
+    "email": "brunosq1@teste.com",
+    "password": "123456"
   }
 }

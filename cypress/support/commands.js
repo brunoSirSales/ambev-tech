@@ -66,3 +66,35 @@ Cypress.Commands.add('login', (email, senha) => {
 Cypress.Commands.add('capturaScreenshot', (nome) => {
   cy.screenshot(`${nome}-${new Date().toISOString().replace(/:/g, '-')}`);
 });
+
+/**
+ * Comando personalizado para cadastrar um usuário específico para testes
+ * Útil para garantir que o usuário de teste exista antes de executar o login
+ * @param {Object} usuario - Objeto com os dados do usuário a ser cadastrado
+ */
+Cypress.Commands.add('cadastrarUsuarioParaLogin', (usuario) => {
+  // Intercepta a requisição de cadastro para verificar o resultado
+  cy.intercept('POST', '**/usuarios').as('cadastroRequest');
+  
+  // Navega para a página de cadastro
+  cy.visit('/cadastrarusuarios');
+  
+  // Preenche o formulário com os dados do usuário
+  cy.get('[data-testid=nome]').clear().type(`Usuário de Login ${new Date().getTime()}`);
+  cy.get('[data-testid=email]').clear().type(usuario.email);
+  cy.get('[data-testid=password]').clear().type(usuario.password);
+  cy.get('[data-testid=checkbox]').check(); // Define como admin para ter acesso completo
+  
+  // Clica no botão de cadastrar
+  cy.get('[data-testid=cadastrar]').click();
+  
+  // Verifica o resultado da requisição
+  cy.wait('@cadastroRequest').then(({ response }) => {
+    // Se o usuário já existe (código 400), não há problema, podemos prosseguir
+    if (response && response.statusCode === 400) {
+      cy.log('Usuário já existe, prosseguindo com o teste de login');
+    } else if (response && (response.statusCode === 200 || response.statusCode === 201)) {
+      cy.log('Usuário cadastrado com sucesso');
+    }
+  });
+});
